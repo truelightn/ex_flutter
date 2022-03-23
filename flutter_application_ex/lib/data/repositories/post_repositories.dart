@@ -9,7 +9,7 @@ class PostRepositories {
 
   PostRepositories.create() : _restClient = RestClient(Dio());
 
-  Future<Post> getRankings() async {
+  Future<List<Post>> getPosts() async {
     try {
       final result = await _restClient.getPosts();
       return result;
