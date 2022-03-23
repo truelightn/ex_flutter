@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'data/models/post.dart';
+import 'data/repositories/post_repositories.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -33,21 +36,35 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<String> title = <String>['title1', 'title2', 'title3'];
   final List<String> body = <String>['body1', 'body2body2', 'body3body3body3'];
 
+  late PostRepositories repo;
+
+  @override
+  void initState() {
+    super.initState();
+    repo = PostRepositories.create();
+    // repo = RankingRepositories(RestClient(Dio()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: ListView.builder(
-          itemCount: title.length,
-          itemBuilder:  (context, index) {
-            return ListTile(
-              title: Text(title[index]),
-              subtitle: Text(body[index]),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: FutureBuilder<List<Post>>(
+          future: repo.getPosts(),
+          builder: (context, snapshot) {
+            final post = snapshot.data!;
+            return ListView.builder(
+              itemCount: post.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(post[index].title!),
+                  subtitle: Text(post[index].body!),
+                );
+              },
             );
-          }
-        )
+          }),
     );
   }
 }
