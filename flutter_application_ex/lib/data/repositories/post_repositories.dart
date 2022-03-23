@@ -5,7 +5,7 @@ import 'package:flutter_application_ex/data/models/post.dart';
 class RankingRepositories {
   final RestClient _restClient;
 
-  const RankingRepositories(this._restClient);
+  // const RankingRepositories(this._restClient);
 
   RankingRepositories.create() : _restClient = RestClient(Dio());
 
